@@ -112,10 +112,10 @@ def add_favorite_people(people_id):
     
     return jsonify({"message": "favorite people added successfully"}), 200
 
-@app.route('/favorite/planet/<int:planet_id> ', methods=['DELETE'])
+@app.route('/favorite/planet/<int:planet_id>', methods=['DELETE'])
 def remove_favorite_planet(planet_id):
     user_id = request.args.get("user_id")
-    favorite = Favorite.query.get(user_id=user_id, planet_id=planet_id).first()
+    favorite = Favorite.query.filter_by(user_id=user_id, planet_id=planet_id).first()
     if favorite is None:
         raise APIException("favorite planet not found", status_code=404)
         
@@ -128,7 +128,7 @@ def remove_favorite_planet(planet_id):
 @app.route('/favorite/people/<int:people_id>', methods=['DELETE'])
 def remove_favorite_people(people_id):
     user_id = request.args.get("user_id")
-    favorite = Favorite.query.get(user_id=user_id, character_id=people_id).first()
+    favorite = Favorite.query.filter_by(user_id=user_id, character_id=people_id).first()
     if favorite is None:
         raise APIException("favorite people not found", status_code=404)
         
